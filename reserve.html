@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
+    <title>reserve</title>
+</head>
+
+<body>
+
+    <div class="mt-10 sm:mt-0 border container mx-auto">
+        <header class="bg-gray-800">
+
+
+            <section class="flex items-center justify-center" style="height: 500px;">
+                <div class="text-center">
+                    <h2 class="mt-6 text-3xl font-bold text-white md:text-5xl">Hot Restaurant</h2>
+                    <p class=" mt-4 text-xl font-medium tracking-wider text-gray-300">Make your reservation</p>
+
+                    <div class="flex justify-center mt-8">
+                        <a class="mx-10 px-8 py-2 text-lg font-medium text-white transition-colors duration-300 transform bg-indigo-600 rounded hover:bg-indigo-500" href="/tables">View Tables</a>
+                        <a class="px-8 py-2 text-lg font-medium text-white transition-colors duration-300 transform bg-indigo-600 rounded hover:bg-indigo-500" href="/">Home</a>
+                    </div>
+                </div>
+            </section>
+        </header>
+        <div class="md:gap-6 border">
+            <div class=" mt-7 border border-solid border-gray-300 bg-gray-300 my-auto p-3">
+                <h3 class="text-lg font-medium leading-6 text-gray-900 my-auto">Table Reservation</h3>
+            </div>
+            <div class="mt-5 md:mt-0 border">
+                <form action="#" method="POST">
+                    <div class="shadow overflow-hidden sm:rounded-md">
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" name="first_name" id="name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border">
+                            <label for="last_name" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <input type="text" name="phone" id="phone" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border">
+                            <label for="email_address" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="text" name="email" id="email" autocomplete="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border">
+                            <label for="street_address" class="block text-sm font-medium text-gray-700">Unique ID</label>
+                            <input type="text" name="street_address" id="id" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border">
+                        </div>
+                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                            <button type="submit" id="submit-Btn" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Submit
+                  </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <footer>
+            <p>
+                <a class=" text-blue-600 " href="/api/tables">API Table Link</a> |
+                <a class=" text-blue-600 " href="/api/waitlist">API Wait List</a>
+            </p>
+        </footer>
+    </div>
+    <script type="text/javascript">
+        const submitBtn = document.getElementById('submit-Btn');
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+
+            let name = document.getElementById('name').value.trim();
+            let phone = document.getElementById('phone').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let id = document.getElementById('id').value.trim();
+
+            let newGuest = {
+                name: name,
+                phone: parseInt(phone),
+                email: email,
+                id: parseInt(id),
+            };
+
+            //This function is not working i am getting data
+            // why i need fetch here,given that i have already post function to handle post request in server.js 
+            fetch('/reserve', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newGuest), //i don't get why we use this....
+                })
+                .then((response) => {
+                    response.json(); // why i need this here response is supposed to be json why i need .json() 
+                })
+                .then((data) => {
+                    console.error(data);
+
+                    alert(`Yay! You are officially booked! ${data.name}`);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>
