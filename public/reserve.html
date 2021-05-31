@@ -78,22 +78,26 @@
                 id: parseInt(id),
             };
 
-            //This function is not working i am getting data
-            // why i need fetch here,given that i have already post function to handle post request in server.js 
-            fetch('/reserve', {
+            fetch('/api/tables', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(newGuest), //i don't get why we use this....
+                    body: JSON.stringify(newGuest),
                 })
-                .then((response) => {
-                    response.json(); // why i need this here response is supposed to be json why i need .json() 
-                })
+                .then((response) =>
+                    response.json())
                 .then((data) => {
-                    console.error(data);
+                    if (data) {
 
-                    alert(`Yay! You are officially booked! ${data.name}`);
+                        alert(`Yay! You are officially booked!`);
+                    } else {
+                        alert(`You are on the Waiting List now !`);
+                    }
+                    let name = document.getElementById('name').value = "";
+                    let phone = document.getElementById('phone').value = "";
+                    let email = document.getElementById('email').value = "";
+                    let id = document.getElementById('id').value = "";
                 })
                 .catch((error) => {
                     console.error('Error:', error);
